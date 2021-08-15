@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     KnightMoveCalculator kmc;
     QThread calcul_thread;
     kmc.moveToThread(&calcul_thread);
+    calcul_thread.start();
     w.show();
 
     return a.exec();
