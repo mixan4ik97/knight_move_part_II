@@ -10,6 +10,7 @@ DeskGUI::DeskGUI(QWidget *parent) :
 
 DeskGUI::~DeskGUI()
 {
+    emit stopCalcul();
     delete ui;
 }
 
@@ -37,20 +38,29 @@ void DeskGUI::on_pushButton_start_clicked()
         uint8_t k1 = GET_NUMBER(pos1);
         uint8_t k2 = GET_NUMBER(pos2);
         emit startCalcul(k1, k2);
-
     }
     catch (...) {
         emit stopCalcul();
     }
 }
 
-void DeskGUI::finish(QVector<uint8_t> out){
+QString getStringFromNum(uint8_t num){
+    uint8_t w = GET_WIDTH(num);
+    char h  = (char) GET_WIDTH(num);
+    return QString(QChar(notate[0] + w)) + QString(QChar(h + 48)) ;
+}
 
+void DeskGUI::finish(QVector<uint8_t> out){
+    QString out_s = "Вывод пути: " ;
+    for(uint8_t i = 0;i<out.size();i++)
+        out_s+= getStringFromNum(out[i])+" ";
+    qmb.setText(out_s);
+    qmb.exec();
 }
 
 
 
 void DeskGUI::on_pushButton_stop_clicked()
 {
-        emit stopCalcul();
+    emit stopCalcul();
 }

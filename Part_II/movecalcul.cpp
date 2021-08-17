@@ -39,9 +39,6 @@ uint8_t MoveCalcul::calk_knight(uint8_t k1,const uint8_t &k2, uint64_t k_flags, 
             throw;
         if (k1 == k2)
             return k_flags;
-        if (!is_warring && count > cur_min) {
-
-        }
 
         if (is_warring && count > MAX_WARRING_MOVES) {
             return k_flags;
@@ -58,33 +55,34 @@ uint8_t MoveCalcul::calk_knight(uint8_t k1,const uint8_t &k2, uint64_t k_flags, 
         getCorrectMove(k1, n_flags);
         uint8_t hods[8];
         memset(hods, 0, 8);
-        if (n_flags & (1 << 1) && ~(k_flags & (k1 + 8 - 2)))
+        if (n_flags & (1 << 1) && ~(k_flags & (GET_H1(k1))))
         hods[0] = calk_knight(GET_H1(k1), k2, k_flags, m_count );
         if (cur_min > m_count){ cur_min = m_count; i_min = 0;}
-        if (n_flags & (1 << 2) && ~(k_flags & (k1 + 8 * 2 - 1)))
+        if (n_flags & (1 << 2) && ~(k_flags & (GET_H2(k1))))
         hods[1] = calk_knight(GET_H2(k1), k2, k_flags, m_count );
         if (cur_min > m_count){ cur_min = m_count; i_min = 1;}
-        if (n_flags & (1 << 3) && ~(k_flags & (k1 + 8 * 2 + 1)))
+        if (n_flags & (1 << 3) && ~(k_flags & (GET_H3(k1))))
         hods[2] = calk_knight(GET_H3(k1), k2, k_flags, m_count );
         if (cur_min > m_count){ cur_min = m_count; i_min = 2;}
-        if (n_flags & (1 << 4) && ~(k_flags & (k1 + 8 + 2)))
+        if (n_flags & (1 << 4) && ~(k_flags & (GET_H4(k1))))
         hods[3] = calk_knight(GET_H4(k1), k2, k_flags, m_count );
         if (cur_min > m_count){ cur_min = m_count; i_min = 3;}
-        if (n_flags & (1 << 5) && ~(k_flags & (k1 - 8 - 2)))
+        if (n_flags & (1 << 5) && ~(k_flags & (GET_H5(k1))))
         hods[4] = calk_knight(GET_H5(k1), k2, k_flags, m_count);
         if (cur_min > m_count){ cur_min = m_count; i_min = 3;}
-        if (n_flags & (1 << 6) && ~(k_flags & (k1 - 8 * 2 - 1)))
+        if (n_flags & (1 << 6) && ~(k_flags & (GET_H6(k1))))
         hods[5] = calk_knight(GET_H6(k1), k2, k_flags, m_count );
         if (cur_min > m_count){ cur_min = m_count; i_min = 5;}
-        if (n_flags & (1 << 7) && ~(k_flags & (k1 - 8 * 2 + 1)))
+        if (n_flags & (1 << 7) && ~(k_flags & (GET_H7(k1))))
         hods[6] = calk_knight(GET_H7(k1), k2, k_flags, m_count );
         if (cur_min > m_count){ cur_min = m_count; i_min = 6;}
-        if (n_flags & (1 << 8) && ~(k_flags & (k1 - 8 + 2)))
+        if (n_flags & (1 << 8) && ~(k_flags & (GET_H8(k1))))
         hods[7] = calk_knight(GET_H8(k1), k2, k_flags, m_count );
         if (cur_min > m_count){ cur_min = m_count; i_min = 7;}
         return hods[i_min];
     }
     catch(...){
+        qDebug()<< "Er2"<<c_num ;
         return k_flags;
     }
 
@@ -109,10 +107,10 @@ void MoveCalcul::startCalcul(uint8_t pos1, uint8_t pos2){
             case 7 :if(!(n_flags & (1 << 7))) throw; calk_knight(GET_H7(pos1), pos2, k_flags, count); break;
             case 8 :if(!(n_flags & (1 << 8))) throw; calk_knight(GET_H8(pos1), pos2, k_flags, count); break;
         }
-
         emit finishCalcul(k_flags, count);
     }
     catch (...) {
+        qDebug()<< "Er1"<<c_num ;
         emit finishCalcul(k_flags, count);
     }
 }

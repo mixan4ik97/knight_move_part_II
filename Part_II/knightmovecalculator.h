@@ -3,9 +3,11 @@
 
 #include <QObject>
 #include <QThread>
+#include <QDebug>
+#include <QMutex>
 
 #define N_DESK 8 // Размерность доски
-#define MAX_MOVES 64 // Максимальное количество ходов конём
+#define MAX_MOVES 10 // Максимальное количество ходов конём
 #define MAX_WARRING_MOVES 32 // Максимальное найденное количество ходов, после которого у пользователя спрашивается, нужно ли продолжать расчёт
 #define SYSTEM_ERROR -1 // Ошибка работы главного тела программы
 #define CALCULATION_ERROR -2 // Ошибка при вычислении
@@ -33,21 +35,21 @@ public:
 public slots:
    virtual void startCalcul(uint8_t pos1, uint8_t pos2);
    virtual void stopCalcul();
-   void finishCalcul(uint8_t flags, uint8_t count);
+   void finishCalcul(unsigned char flags, unsigned char count);
 protected:
     void getCorrectMove(uint8_t k, uint8_t &n);
 signals:
     void startAll(uint8_t pos1, uint8_t pos2);
     void finish(QVector<uint8_t> ret);
-    void finishCalc(uint8_t flags, uint8_t count);
     void stopAll();
 private:
     QVector<uint8_t> getQVectorFromFlags(const uint8_t &flags,const uint8_t &count ,QVector<uint8_t> ret,uint8_t pos1,const uint8_t &pos2, bool flags_this);
-    uint8_t countCalcul;
-    uint8_t count_min;
-    uint8_t flags_min;
-    uint8_t cur_pos1;
-    uint8_t cur_pos2;
+    std::atomic<uint8_t> countCalcul;
+    std::atomic<uint8_t> count_min;
+    std::atomic<uint8_t> flags_min;
+    std::atomic<uint8_t> cur_pos1;
+    std::atomic<uint8_t> cur_pos2;
+    QMutex m_mutex;
 };
 
 #endif // KNIGHTMOVECALCULATOR_H

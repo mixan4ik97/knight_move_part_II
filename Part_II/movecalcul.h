@@ -15,6 +15,8 @@ public:
 protected slots:
     void startCalcul(uint8_t pos1, uint8_t pos2);
     void stopCalcul();
+signals:
+    void finishCalc(unsigned char flags, unsigned char count);
 private:
     uint8_t calk_knight(uint8_t k1,const uint8_t &k2, uint64_t k_flags, uint8_t &count);
     uint8_t c_num;

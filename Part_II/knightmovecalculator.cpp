@@ -24,7 +24,6 @@ void KnightMoveCalculator::stopCalcul(){
     emit stopAll();
 }
 
-
 /*
 Функция возвращает переменную с битовыми флагами (n), говорящих о том,какой ход возможен для коня
 uint8_t k - номер клетки, в которой находится конь
@@ -91,15 +90,22 @@ QVector<uint8_t> KnightMoveCalculator::getQVectorFromFlags(const uint8_t &flags,
     return QVector<uint8_t>();
 }
 
-void KnightMoveCalculator::finishCalcul(uint8_t flags, uint8_t count){
+void KnightMoveCalculator::finishCalcul(unsigned char flags, unsigned char count){
+    QMutexLocker locker (&m_mutex);
     countCalcul++;
+    qDebug()<< "countCalcul = "<< countCalcul;
+    if(!flags){
+        return;
+    }
     if(count < count_min){
         count_min = count;
         flags_min = flags;
     }
     if(countCalcul >=7){
-        if(count_min > MAX_MOVES || count_min ==0 || flags_min == 0)
+        if(count_min > MAX_MOVES || count_min ==0 || flags_min == 0){
             emit finish(QVector<uint8_t>());
+            return;
+        }
         QVector<uint8_t> ret = getQVectorFromFlags(flags_min, count_min,QVector<uint8_t>(),cur_pos1,cur_pos2,0);
     }
 }

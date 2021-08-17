@@ -258,6 +258,7 @@ release/moc_deskgui.cpp: deskgui.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qthread.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qdeadlinetimer.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qelapsedtimer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QDebug \
 		release/moc_predefs.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/bin/moc.exe
 	C:\Qt\qtcreator-4.15.2\6.1.2\mingw81_64\bin\moc.exe $(DEFINES) --include E:/Mixan4ik/users/knight_move_part_II/knight_move_part_II/Part_II/Part_II/release/moc_predefs.h -IC:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/mkspecs/win32-g++ -IE:/Mixan4ik/users/knight_move_part_II/knight_move_part_II/Part_II/Part_II -IC:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include -IC:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets -IC:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtGui -IC:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++ -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/x86_64-w64-mingw32/include deskgui.h -o release\moc_deskgui.cpp
@@ -335,6 +336,17 @@ release/moc_knightmovecalculator.cpp: knightmovecalculator.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qthread.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qdeadlinetimer.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qelapsedtimer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QDebug \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qdebug.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qhash.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qmap.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qshareddata_impl.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qtextstream.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qstringconverter.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qset.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qcontiguouscache.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qsharedpointer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qsharedpointer_impl.h \
 		release/moc_predefs.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/bin/moc.exe
 	C:\Qt\qtcreator-4.15.2\6.1.2\mingw81_64\bin\moc.exe $(DEFINES) --include E:/Mixan4ik/users/knight_move_part_II/knight_move_part_II/Part_II/Part_II/release/moc_predefs.h -IC:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/mkspecs/win32-g++ -IE:/Mixan4ik/users/knight_move_part_II/knight_move_part_II/Part_II/Part_II -IC:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include -IC:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets -IC:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtGui -IC:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++ -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed -IC:/Qt/qtcreator-4.15.2/Tools/mingw810_64/x86_64-w64-mingw32/include knightmovecalculator.h -o release\moc_knightmovecalculator.cpp
@@ -413,6 +425,17 @@ release/moc_movecalcul.cpp: movecalcul.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qthread.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qdeadlinetimer.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qelapsedtimer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QDebug \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qdebug.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qhash.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qmap.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qshareddata_impl.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qtextstream.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qstringconverter.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qset.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qcontiguouscache.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qsharedpointer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qsharedpointer_impl.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QMutex \
 		release/moc_predefs.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/bin/moc.exe
@@ -579,6 +602,7 @@ release/main.o: main.cpp deskgui.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qthread.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qdeadlinetimer.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qelapsedtimer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QDebug \
 		movecalcul.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QMutex \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets/QApplication \
@@ -728,6 +752,7 @@ release/deskgui.o: deskgui.cpp deskgui.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qthread.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qdeadlinetimer.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qelapsedtimer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QDebug \
 		ui_deskgui.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\deskgui.o deskgui.cpp
 
@@ -803,7 +828,18 @@ release/knightmovecalculator.o: knightmovecalculator.cpp knightmovecalculator.h 
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QThread \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qthread.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qdeadlinetimer.h \
-		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qelapsedtimer.h
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qelapsedtimer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QDebug \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qdebug.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qhash.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qmap.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qshareddata_impl.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qtextstream.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qstringconverter.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qset.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qcontiguouscache.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qsharedpointer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qsharedpointer_impl.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\knightmovecalculator.o knightmovecalculator.cpp
 
 release/movecalcul.o: movecalcul.cpp movecalcul.h \
@@ -880,6 +916,17 @@ release/movecalcul.o: movecalcul.cpp movecalcul.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qthread.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qdeadlinetimer.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qelapsedtimer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QDebug \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qdebug.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qhash.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qmap.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qshareddata_impl.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qtextstream.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qstringconverter.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qset.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qcontiguouscache.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qsharedpointer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qsharedpointer_impl.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QMutex
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\movecalcul.o movecalcul.cpp
 

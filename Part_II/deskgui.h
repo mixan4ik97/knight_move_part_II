@@ -29,6 +29,7 @@ signals:
 private:
     bool isCorrectCoordinate(QString pos);
     uint8_t step;
+    QMessageBox qmb;
     Ui::DeskGUI *ui;
 };
 

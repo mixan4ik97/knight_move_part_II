@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     for(uint8_t i =0;i<8;i++){
       QObject::connect(&kmc,SIGNAL(startAll(uint8_t , uint8_t )),mc[i],SLOT(startCalcul(uint8_t , uint8_t )));
       QObject::connect(&kmc,SIGNAL(stopAll()),mc[i],SLOT(stopCalcul()));
-      QObject::connect(mc[i],SIGNAL(finishCalc(uint8_t , uint8_t )),&kmc,SLOT(finishCalc(uint8_t , uint8_t )));
+      QObject::connect(mc[i],SIGNAL(finishCalc(unsigned char , unsigned char )),&kmc,SLOT(finishCalcul(unsigned char , unsigned char )),Qt::QueuedConnection);
     }
 
     for(uint8_t i =0;i<8;i++)
