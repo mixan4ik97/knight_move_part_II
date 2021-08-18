@@ -22,10 +22,10 @@ private slots:
     void on_pushButton_start_clicked();
 
     void on_pushButton_stop_clicked();
+
 signals:
     void startCalcul(uint8_t pos1, uint8_t pos2);
     void stopCalcul();
-
 private:
     bool isCorrectCoordinate(QString pos);
     uint8_t step;

@@ -10,7 +10,6 @@ DeskGUI::DeskGUI(QWidget *parent) :
 
 DeskGUI::~DeskGUI()
 {
-    emit stopCalcul();
     delete ui;
 }
 
@@ -51,6 +50,7 @@ QString getStringFromNum(uint8_t num){
 }
 
 void DeskGUI::finish(QVector<uint8_t> out){
+    qDebug()<<"Finish!";
     QString out_s = "Вывод пути: " ;
     for(uint8_t i = 0;i<out.size();i++)
         out_s+= getStringFromNum(out[i])+" ";
@@ -64,3 +64,5 @@ void DeskGUI::on_pushButton_stop_clicked()
 {
     emit stopCalcul();
 }
+
+

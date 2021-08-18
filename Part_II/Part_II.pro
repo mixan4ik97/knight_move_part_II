@@ -13,11 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+    calculation.cpp \
+    calculestate.cpp \
         deskgui.cpp \
     knightmovecalculator.cpp \
     movecalcul.cpp
 
 HEADERS  += deskgui.h \
+    calculation.h \
+    calculestate.h \
     knightmovecalculator.h \
     movecalcul.h
 
