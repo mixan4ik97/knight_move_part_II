@@ -261,6 +261,9 @@ debug/moc_deskgui.cpp: deskgui.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets/QMessageBox \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets/qdialog.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QTimer \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qtimer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qbasictimer.h \
 		knightmovecalculator.h \
 		calculation.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QThread \
@@ -614,6 +617,9 @@ debug/main.o: main.cpp deskgui.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets/QMessageBox \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets/qdialog.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QTimer \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qtimer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qbasictimer.h \
 		knightmovecalculator.h \
 		calculation.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QThread \
@@ -789,7 +795,8 @@ debug/calculestate.o: calculestate.cpp calculestate.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qobject_impl.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qproperty.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qshareddata.h \
-		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qpropertyprivate.h
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qpropertyprivate.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QMutex
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\calculestate.o calculestate.cpp
 
 debug/deskgui.o: deskgui.cpp deskgui.h \
@@ -925,6 +932,9 @@ debug/deskgui.o: deskgui.cpp deskgui.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets/QMessageBox \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtWidgets/qdialog.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QTimer \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qtimer.h \
+		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/qbasictimer.h \
 		knightmovecalculator.h \
 		calculation.h \
 		C:/Qt/qtcreator-4.15.2/6.1.2/mingw81_64/include/QtCore/QThread \

@@ -19,6 +19,8 @@ protected slots:
 signals:
     void finishCalc(uint64_t flags, unsigned char count );
     void finished();
+
+
 private:
     knight_pair calk_knight(uint8_t k1, const uint8_t &k2, uint64_t k_flags, uint8_t count, knight_pair cur_min);
     uint8_t c_num;

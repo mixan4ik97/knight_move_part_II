@@ -12,7 +12,6 @@
 #define SYSTEM_ERROR -1 // Ошибка работы главного тела программы
 #define CALCULATION_ERROR -2 // Ошибка при вычислении
 #define NOT_RESULT_ERROR -3 // Не был вычислен результат
-#define GET_NUMBER(pos)  ((pos[0].toLatin1() - notate[0])*8 + pos[1].toLatin1()-48) // Преоводит число из символа в ASII  в целочисленное однобайтовое значение
 #define GET_WIDTH(k)  (k % 8) // Вычисляет из порядкового номера клетки её номер в текущей строке
 #define GET_HEIGHT(k)  (k/8) // Вчисляет номер строки
 

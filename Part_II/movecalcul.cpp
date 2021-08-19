@@ -21,7 +21,7 @@ MoveCalcul::MoveCalcul(uint8_t num, bool war){
 
 MoveCalcul::~MoveCalcul(){
     stopCalcul();
-    emit finished();
+    QThread::currentThread()->exit();
 }
 
 
@@ -81,7 +81,7 @@ void MoveCalcul::startCalcul(uint8_t pos1, uint8_t pos2){
         is_stop = false;
         is_warring = false;
         ret.second =0;
-        ret.second |= 1 << pos2;
+        ret.second |= 1 << pos1;
         ret.first = 0xFF;
         uint8_t n_flags=0;
         knight_pair cur_min;
@@ -98,11 +98,11 @@ void MoveCalcul::startCalcul(uint8_t pos1, uint8_t pos2){
             case 7 :if(!(n_flags & (1 << 7))) break;ret =  calk_knight(GET_H7(pos1), pos2, ret.second, 1,cur_min); break;
             case 8 :if(!(n_flags & (1 << 8))) break;ret =  calk_knight(GET_H8(pos1), pos2, ret.second, 1,cur_min); break;
         }
-        emit finishCalcul(ret.second, ret.first);
+        emit finishCalc(ret.second, ret.first);
     }
     catch (...) {
         qDebug()<< "Er1"<<c_num ;
-        emit finishCalcul(ret.second, ret.first);
+        emit finishCalc(ret.second, ret.first);
     }
 }
 
