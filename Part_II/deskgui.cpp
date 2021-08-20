@@ -8,64 +8,84 @@ DeskGUI::DeskGUI(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    for(uint8_t i =0;i<8;i++)
-        for(uint8_t j =0;j<8;j++)
-            if((i+j )%2 == 0 )
-                ui->desk->item(i,j)->setIcon(QIcon("k4.PNG"));
-            else
-                ui->desk->item(i,j)->setIcon(QIcon("kb.PNG"));
-
-
-    QString patch = QDir::currentPath() + "/img/";
-    QString name;
-    for(uint8_t i =1; i<= 4;i++){
-        name = patch +QString::number(i) + ".png";
-        bool b = img.load(name, "PNG" );
-        //qDebug() <<( b ? "Is loading :" : "Is NOT loading :")<<name ;
-        img = img.scaled(75,75);
-        ic[i].setTextureImage(img) ;
-    }
-
+    ui->desk->verticalHeader()->setVisible(false);
+    ui->desk->horizontalHeader()->setVisible(false);
     QTableWidgetItem *it;
-   // ui->tableWidget_bord->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->desk->setSelectionMode(QAbstractItemView::NoSelection);
     for(int i =0; i< 8;i++)
          for(int j =0; j< 8;j++){
              it = new QTableWidgetItem();
              it->setFlags( it->flags() ^ Qt::ItemIsEditable );
+             ui->desk->setItem(i, j, it);
+         }
+    QString patch = QDir::currentPath() + "/img/";
+    QString name;
+    QImage img;
+    for(uint8_t i =1; i<= 4;i++){
+        name = patch +QString::number(i) + ".png";
+        bool b = img.load(name, "PNG" );
+        img = img.scaled(32,32);
+        ic[i-1].setTextureImage(img);
+    }
+    ui->desk->setSelectionMode(QAbstractItemView::NoSelection);
+    for(uint8_t i =0; i< 8;i++)
+         for(uint8_t j =0; j< 8;j++){
+             it = new QTableWidgetItem();
+             it->setFlags( it->flags() ^ Qt::ItemIsEditable );
              if((i+j )%2 == 0 )
-                 it->setIcon(QIcon("k4.PNG"));
+                 it->setBackground( ic[2]);
              else
-                 it->setIcon(QIcon("kb.PNG"));
+                 it->setBackground( ic[3]);
              ui->desk->setItem(i, j, it);
 
          }
     for(int i =0; i< 8;i++){
-        ui->desk->setRowHeight(i,75);
-        ui->desk->setColumnWidth(i,75);
+        ui->desk->setRowHeight(i,32);
+        ui->desk->setColumnWidth(i,32);
     }
-
-
 
      connect(&timer, SIGNAL(timeout()), this, SLOT(addHodForTimeout()));
      setState(0);
 }
 
 
+void DeskGUI::cleanDesk(){
+    for(uint8_t i =0; i< 8;i++)
+         for(uint8_t j =0; j< 8;j++){
+             if((i+j )%2 == 0 )
+                 ui->desk->item(i,j)->setBackground( ic[2]);
+             else
+                 ui->desk->item(i,j)->setBackground( ic[3]);
+         }
+}
 
 void DeskGUI::addHodForTimeout(){
     int out = CalculeState::inst().getCurHod(cur_hod);
     if(out < 0){
+       cur_hod=0;
        timer.stop();
        setState(0);
     }
     else{
-        uint8_t w = GET_WIDTH(out);
-        char h  = (char) GET_WIDTH(out);
+        uint8_t w;
+        char h;
+        if(cur_hod>0){
+            uint8_t temp = CalculeState::inst().getCurHod(cur_hod-1);
+            w = GET_WIDTH(temp);
+            h  = (char) GET_HEIGHT(temp);
+            if((w+h )%2 == 0 )
+                ui->desk->item(7-h,w)->setBackground( ic[3]);
+            else
+                ui->desk->item(7-h,w)->setBackground( ic[2]);
+        }
+        w = GET_WIDTH(out);
+        h  = (char) GET_HEIGHT(out);
+        qDebug()<< out<<" "<<w<<" "<<(int)h;
         if((w+h )%2 == 0 )
-            ui->desk->item(w,h)->setIcon(QIcon("k4.PNG"));
+            ui->desk->item(7-h,w)->setBackground( ic[1]);
         else
-            ui->desk->item(w,h)->setIcon(QIcon("kb.PNG"));
+            ui->desk->item(7-h,w)->setBackground( ic[0]);
+        cur_hod++;
     }
 }
 
@@ -86,7 +106,7 @@ void DeskGUI::closeEvent(QCloseEvent *event) {
 bool DeskGUI::isCorrectCoordinate(QString pos) {
     if (pos.size() != 2)
         return false;
-    if (pos[1].toLatin1() - 48 < 1 || pos[1].toLatin1() - 48 > 8)
+    if (pos.toStdString()[0] - 48 < 1 || pos.toStdString()[1] - 48 > 8)
         return false;
     for (uint8_t i = 0; i<8; i++)
         if (pos[0] == notate[i])
@@ -100,13 +120,22 @@ void DeskGUI::on_pushButton_start_clicked()
     try {
        setState(1);
         QString pos1 = ui->lineEdit_knight->text();
-        if(!isCorrectCoordinate( pos1))
-                return;
+        if(!isCorrectCoordinate( pos1)){
+            qmb.setText("Первая координата введена не корректно.");
+            qmb.exec();
+            setState(0);
+            return;
+        }
         QString pos2 = ui->lineEdit_pos->text();
-        if(!isCorrectCoordinate( pos2))
+        if(!isCorrectCoordinate( pos2)){
+            qmb.setText("Вторая координата введена не корректно.");
+            qmb.exec();
+            setState(0);
                 return;
-        uint8_t k1 = GET_NUMBER(pos1);
-        uint8_t k2 = GET_NUMBER(pos2);
+        }
+        uint8_t k1 = GET_NUMBER(pos1.toStdString());
+        uint8_t k2 = GET_NUMBER(pos2.toStdString());
+        CalculeState::inst().resetState();
         emit startCalcul(k1, k2);
     }
     catch (...) {
@@ -118,16 +147,31 @@ void DeskGUI::on_pushButton_start_clicked()
 QString getStringFromNum(uint8_t num){
     uint8_t w = GET_WIDTH(num);
     char h  = (char) GET_WIDTH(num);
-    return QString(QChar(notate[0] + w+1)) + QString(QChar(h + 48+1)) ;
+    return QString(QChar(notate[0] + w)) + QString(QChar(h + 48));
 }
 
 void DeskGUI::calculOut(QByteArray out){
     qDebug()<<"Finish!";
-    QString out_s = "Вывод пути: " ;
-    for(uint8_t i = 0;i<out.size();i++)
-        out_s+= getStringFromNum(out[i])+" ";
-    qmb.setText(out_s);
-    qmb.exec();
+    for(uint8_t i =0;i<8;i++){
+        QString temp;
+        for(uint8_t j =0;j<8;j++){
+            uint8_t u=0;
+            for(uint8_t t=0;t<8;t++){if(out[t] == i*8+j) u=out[t];}
+            if(u)
+                temp+=QString::number(u) + " ";
+            else
+               temp+="0 ";
+        }
+            qDebug()<<temp;
+    }
+
+    if(out.size() <= 1){
+        qmb.setText("Решение не было найдено.");
+        qmb.exec();
+        setState(0);
+        return;
+    }
+    cleanDesk();
     CalculeState::inst().setOutput(out);
     cur_hod =0;
     timer.start(500);

@@ -12,11 +12,11 @@ public:
     ~KnightMoveCalculator();
 public:
 public slots:
-   virtual void startCalcul(uint8_t pos1, uint8_t pos2);
+   virtual void startCalcul(const uint8_t &pos1, const uint8_t & pos2);
    virtual void stopCalcul();
    void finishCalcul(uint64_t flags, unsigned char count);
 signals:
-    void startAll(uint8_t pos1, uint8_t pos2);
+    void startAll(const uint8_t & pos1, const uint8_t &pos2);
     void calculOut(QByteArray out);
     void stopAll();
 private:

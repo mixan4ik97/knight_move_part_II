@@ -1,13 +1,14 @@
-#include "deskgui.h"
-#include "knightmovecalculator.h"
-#include "movecalcul.h"
 #include <QThread>
 #include <QObject>
 #include <QApplication>
+#include "deskgui.h"
+#include "knightmovecalculator.h"
+#include "movecalcul.h"
 
 int main(int argc, char *argv[])
 {
-
+    qRegisterMetaType<uint8_t>("uint8_t");
+    qRegisterMetaType<uint64_t>("uint64_t");
     QApplication a(argc, argv);
     DeskGUI dg;
     KnightMoveCalculator kmc;
@@ -39,5 +40,5 @@ int main(int argc, char *argv[])
         t_mc[i].quit();
     for(uint8_t i =0;i<8;i++)
         delete mc[i];
-    return a.exec();
+    return 0;
 }

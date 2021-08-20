@@ -35,6 +35,8 @@ signals:
 private:
     bool isCorrectCoordinate(QString pos);
     void setState(const uint8_t& st);
+    void cleanDesk();
+    QBrush ic[4];
     uint8_t step;
     QMessageBox qmb;
     Ui::DeskGUI *ui;
