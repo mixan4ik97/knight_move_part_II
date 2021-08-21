@@ -21,7 +21,6 @@ signals:
     void stopAll();
 private:
     QByteArray getQVectorFromFlags(const uint64_t &flags,const uint8_t &count ,QByteArray ret,uint8_t pos1,const uint8_t &pos2, uint64_t flags_this);
-    QMutex m_mutex;
 };
 
 #endif // KNIGHTMOVECALCULATOR_H

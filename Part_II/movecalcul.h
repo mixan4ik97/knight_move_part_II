@@ -1,7 +1,6 @@
 #ifndef MOVECALCUL_H
 #define MOVECALCUL_H
 #include "knightmovecalculator.h"
-#include <QMutex>
 #include <QPair>
 typedef  QPair<uint8_t,uint64_t> knight_pair;
 
@@ -27,8 +26,7 @@ private:
     uint8_t cur_min;
     uint8_t flags_min;
     bool is_warring;
-    bool is_stop;
-    QMutex m_mutex;
+    std::atomic_bool is_stop;
 };
 
 #endif // MOVECALCUL_H

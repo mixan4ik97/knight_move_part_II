@@ -32,13 +32,14 @@ int main(int argc, char *argv[])
         t_mc[i].start();
     dg.show();
 
-    QEventLoop loop;
-    QObject::connect(&dg,SIGNAL(exit()),&loop,SLOT(quit()));
-    loop.exec();
+    QObject::connect(&dg,SIGNAL(exit()),&a,SLOT(quit()));
+    int ret = a.exec();
 
-    for(uint8_t i =0;i<8;i++)
+    for(uint8_t i =0;i<8;i++){
         t_mc[i].quit();
+        t_mc[i].wait();
+    }
     for(uint8_t i =0;i<8;i++)
         delete mc[i];
-    return 0;
+    return ret;
 }

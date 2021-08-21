@@ -135,6 +135,12 @@ void DeskGUI::on_pushButton_start_clicked()
         }
         uint8_t k1 = GET_NUMBER(pos1.toStdString());
         uint8_t k2 = GET_NUMBER(pos2.toStdString());
+        if(k1 == k2){
+            qmb.setText("Вы ввели одинаковые координаты.");
+            qmb.exec();
+            setState(0);
+            return;
+        }
         CalculeState::inst().resetState();
         emit startCalcul(k1, k2);
     }
@@ -156,7 +162,7 @@ void DeskGUI::calculOut(QByteArray out){
         QString temp;
         for(uint8_t j =0;j<8;j++){
             uint8_t u=0;
-            for(uint8_t t=0;t<8;t++){if(out[t] == i*8+j) u=out[t];}
+            for(uint8_t t=0;t<8;t++){if(out[t] == i*8+j) u=t+1;}
             if(u)
                 temp+=QString::number(u) + " ";
             else

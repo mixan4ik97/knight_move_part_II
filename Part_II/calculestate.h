@@ -18,7 +18,8 @@ class Single
 class CalculeState  : public Single<CalculeState>
 {
 public:
-    CalculeState(){resetState();};
+    CalculeState(){resetState();}
+    ~CalculeState(){mutex.unlock();}
     void setCountCalcul(const uint8_t &temp){countCalcul = temp;}
     void setCountMin(const uint8_t &temp){ count_min = temp;}
     void setFlagsMin(const uint64_t &temp){ flags_min = temp;}
@@ -36,7 +37,7 @@ public:
     QByteArray getOutput(){QMutexLocker ml(&mutex); return output;}
     int getCurHod(uint8_t hod){QMutexLocker ml(&mutex); if(hod < output.size()) return output[hod]; else return -1;}
 
-    void resetState(){countCalcul =0;count_min=0xFF;flags_min=0;cur_pos1=0;cur_pos2=0;output.clear();};
+    void resetState(){countCalcul =0;count_min=0xFF;flags_min=0;cur_pos1=0;cur_pos2=0;output.clear();}
 
 
 private:
