@@ -39,7 +39,12 @@ void Calculation::getCorrectMove(const uint8_t & k,  uint16_t &n){
 
 }
 
-bool Calculation::getOneCorrectMove(const uint8_t &k,const uint8_t & i){
+// Функция возвращает значение, которое говорит о том, можно ли делать i-й ход
+/*
+const uint8_t &k - текуща ячейка
+const uint8_t & i - номер хода
+*/
+bool Calculation::getOneCorrectMove(const uint8_t &k,const uint16_t & i){
     int t_w=GET_WIDTH(k);
     int t_h=GET_HEIGHT(k);
     get_hod(t_w,t_h,i);

@@ -2,6 +2,8 @@
 #include "ui_deskgui.h"
 #include <QDir>
 
+
+//Главный конструктор
 DeskGUI::DeskGUI(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::DeskGUI)
@@ -48,7 +50,7 @@ DeskGUI::DeskGUI(QWidget *parent) :
      setState(0);
 }
 
-
+//Функция очищающая доску
 void DeskGUI::cleanDesk(){
     for(uint8_t i =0; i< 8;i++)
          for(uint8_t j =0; j< 8;j++){
@@ -59,6 +61,7 @@ void DeskGUI::cleanDesk(){
          }
 }
 
+// Слот, реализующий ход конём
 void DeskGUI::addHodForTimeout(){
     int out = CalculeState::inst().getCurHod(cur_hod);
     if(out < 0){
@@ -88,6 +91,7 @@ void DeskGUI::addHodForTimeout(){
     }
 }
 
+//Деструктор
 DeskGUI::~DeskGUI()
 {
     emit stopCalcul();
@@ -96,7 +100,8 @@ DeskGUI::~DeskGUI()
     delete ui;
 }
 
-
+// Функция, обрабатывающая закрытия окна
+//QCloseEvent *event - класс - контейнер хранящий в себе информацию характеристик закрытия окна
 void DeskGUI::closeEvent(QCloseEvent *event) {
     emit stopCalcul();
      setState(0);
@@ -104,6 +109,8 @@ void DeskGUI::closeEvent(QCloseEvent *event) {
      emit exit();
 }
 
+// Функция проверяющая на корректность введённой строки с координатами
+//QString pos - введённая строка позиции
 bool DeskGUI::isCorrectCoordinate(QString pos) {
     if (pos.size() != 2)
         return false;
@@ -116,6 +123,7 @@ bool DeskGUI::isCorrectCoordinate(QString pos) {
 
 }
 
+//Слот, обрабатывающий сигнал нажатия на кнопку "Старт"
 void DeskGUI::on_pushButton_start_clicked()
 {
     try {
@@ -151,7 +159,7 @@ void DeskGUI::on_pushButton_start_clicked()
     }
 }
 
-
+// Слот, принимающий сигнал с конечным значением пути
 void DeskGUI::calculOut(QByteArray out){
     if(out.size() <= 1){
         qmb.setText("Решение не было найдено.");
@@ -165,6 +173,7 @@ void DeskGUI::calculOut(QByteArray out){
     timer.start(500);
 }
 
+//Слот, обрабатывающий сигнал по нажатию на кнопку "Стоп"
 void DeskGUI::on_pushButton_stop_clicked()
 {
     timer.stop();
@@ -172,6 +181,8 @@ void DeskGUI::on_pushButton_stop_clicked()
     emit stopCalcul();
 }
 
+// Устанавливает текущее состояние работы окна
+//const uint8_t& st - номер состояния 0 или 1
 void DeskGUI::setState(const uint8_t& st){
     state = st;
     switch(state){

@@ -33,8 +33,8 @@ protected slots:
     virtual void stopCalcul() = 0;// Функция, принудительно завершающая процесс вычисления
     Calculation();
 protected:
-    void getCorrectMove(const uint8_t &k, uint16_t &n); // Функция возвращающая
-    bool getOneCorrectMove(const uint8_t & k,const uint8_t & i);
+    void getCorrectMove(const uint8_t &k, uint16_t &n); // Функция возвращающая битовые флаги с соответствующими номерами допустимыъх ходов
+    bool getOneCorrectMove(const uint8_t & k,const uint16_t & i); // Функция возвращает значение, которое говорит о том, можно ли делать i-й ход
 };
 
 #endif

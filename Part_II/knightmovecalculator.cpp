@@ -1,15 +1,20 @@
 #include "knightmovecalculator.h"
 
+//Главный конструктор
 KnightMoveCalculator::KnightMoveCalculator()
 {
     CalculeState::inst().resetState();
 }
 
+//Деструктор
 KnightMoveCalculator::~KnightMoveCalculator()
 {
     emit stopAll();
 }
 
+// Функция, завучкающая процесс вычисления
+//const uint8_t & pos1 - номер позиции коня
+//const uint8_t & pos2 - конечное положение коня
 void KnightMoveCalculator::startCalcul(const uint8_t & pos1, const uint8_t & pos2){
     CalculeState::inst().resetState();
     CalculeState::inst().setCurPos1( pos1);
@@ -18,12 +23,22 @@ void KnightMoveCalculator::startCalcul(const uint8_t & pos1, const uint8_t & pos
     emit startAll(pos1,pos2);
 }
 
+// Функция, принудительно завершающая процесс вычисления
 void KnightMoveCalculator::stopCalcul(){
     emit stopAll();
 }
 
-
-
+/*
+    В данной реализации, вычисления происходят в 8 потокв, результаты вычислений которых (рещзультат вычисленного пути) возвращается в виде номеро клеток (битовых флагов)
+    без соответствующих номеров. Данная функция предназнгачена для нумерации клеток или по просту говоря, перевода битовых флагов в упорядоченный вектор значений
+    Это сделано для того, чтобы в с стаках не хранить контейнеры, чем облегчается работа программы.
+const uint64_t &flags - Найденные флаги, которые показывают, какой путь был проделан конём
+const uint8_t &count  - количество ходов, которые совершены конём до конечного положения
+QByteArray ret - переменная для рекурсивного стека, в которой хранится текущие проделанные ходы
+uint8_t pos1 - изначальное положение коня
+const uint8_t &pos2 - конечное положение коня
+ uint64_t flags_this - флаги , отмечающие в каком месте побывал конь для данного стека
+*/
 QByteArray KnightMoveCalculator::getQVectorFromFlags(const uint64_t &flags,const uint8_t &count ,QByteArray ret,uint8_t pos1,const uint8_t &pos2, uint64_t flags_this){
     flags_this |= _BV(pos1);
     ret.push_back(pos1);
@@ -79,6 +94,9 @@ QByteArray KnightMoveCalculator::getQVectorFromFlags(const uint64_t &flags,const
     return QByteArray();
 }
 
+// Слот, принимащий в себя результат вычисления
+//uint64_t flags - вычисленные флаги со значениями, в каких местах побывал конь до конечной точки
+//unsigned char count - количество ходов от начальной до конечной точки
 void KnightMoveCalculator::finishCalcul(uint64_t flags, unsigned char count){
     if(count < CalculeState::inst().getCountMin() && count <= MAX_MOVES && count > 0 && flags != 0){
         CalculeState::inst().setCountMin( count);

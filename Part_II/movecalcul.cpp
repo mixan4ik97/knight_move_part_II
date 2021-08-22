@@ -1,18 +1,20 @@
 #include "movecalcul.h"
 
+//Конструктор по умолчанию
 MoveCalcul::MoveCalcul()
 {
     is_stop = false;
 
 }
 
-
+//Конструктор с его номеров в качестве аргумента
 MoveCalcul::MoveCalcul(uint8_t num){
     c_num  = num;
     is_stop = false;
 
 }
 
+//Деструктор
 MoveCalcul::~MoveCalcul(){
     stopCalcul();
 }
@@ -34,8 +36,11 @@ knight_pair MoveCalcul::calk_knight(uint8_t k1, const uint8_t &k2, uint64_t k_fl
     if(is_stop.load())
         return knight_pair(0xFF,0);
 
+    //Во время вычисления в текущем потоке, идёт проверка на найденное минимальное решение
+    //Если глубина текущей рекурсии превышает глобальный уже вычисленный результат, то осуществляется выход из рекурсии
       if (count > cur_min.first || count > CalculeState::inst().getCountMin())
           return knight_pair(0xFF,0);
+
       if (count >= MAX_MOVES)
           return knight_pair(0xFF,0);
       uint16_t n_flags;
@@ -71,6 +76,9 @@ knight_pair MoveCalcul::calk_knight(uint8_t k1, const uint8_t &k2, uint64_t k_fl
       return cur_min;
 }
 
+// Функция, завучкающая процесс вычисления
+//const uint8_t & pos1 - номер позиции коня
+//const uint8_t & pos2 - конечное положение коня
 void MoveCalcul::startCalcul(uint8_t pos1, uint8_t pos2){
     knight_pair ret;
     is_stop = false;
@@ -104,6 +112,7 @@ void MoveCalcul::startCalcul(uint8_t pos1, uint8_t pos2){
     }
 }
 
+// Функция, принудительно завершающая процесс вычисления
 void MoveCalcul::stopCalcul(){
     is_stop = true;
 }
