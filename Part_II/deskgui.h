@@ -9,6 +9,7 @@ namespace Ui {
 class DeskGUI;
 }
 
+//Класс реализующий работу главного окна
 class DeskGUI : public QMainWindow
 {
     Q_OBJECT
@@ -17,33 +18,32 @@ public:
     explicit DeskGUI(QWidget *parent = 0);
     ~DeskGUI();
 public slots:
-    void calculOut(QByteArray out);
+    void calculOut(QByteArray out); // Слот, принимающий сигнал с конечным значением пути
 protected:
-    void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event); // Функция, обрабатывающая закрытия окна
 private slots:
-    void on_pushButton_start_clicked();
+    void on_pushButton_start_clicked(); //Слот, обрабатывающий сигнал нажатия на кнопку "Старт"
 
-    void on_pushButton_stop_clicked();
+    void on_pushButton_stop_clicked(); //Слот, обрабатывающий сигнал по нажатию на кнопку "Стоп"
 
-    void addHodForTimeout();
+    void addHodForTimeout(); // Слот, реализующий ход конём
 
 
 signals:
-    void startCalcul(uint8_t pos1, uint8_t pos2);
-    void stopCalcul();
-    void exit();
+    void startCalcul(uint8_t pos1, uint8_t pos2); //  Сигнал начала вычисления
+    void stopCalcul(); // Сигнал остановки вычисления
+    void exit(); // Сигнал закрытия приложения
 private:
-    bool isCorrectCoordinate(QString pos);
-    void setState(const uint8_t& st);
-    void cleanDesk();
-    QBrush ic[4];
-    uint8_t step;
-    QMessageBox qmb;
-    Ui::DeskGUI *ui;
-    QTimer timer;
-    uint8_t cur_hod;
-    uint8_t state;
-    QImage img[4];
+    bool isCorrectCoordinate(QString pos); // Функция проверяющая на корректность введённой строки с координатами
+    void setState(const uint8_t& st); // Устанавливает текущее состояние работы окна
+    void cleanDesk(); // Очищает доску
+    QBrush ic[4]; // Контейнер, хранящий в себе значки для шахматной доски
+    uint8_t state; // Значение текущего состояния работы виджета
+    QMessageBox qmb; // Класс, реализующий работу окно с сообщением
+    Ui::DeskGUI *ui; // Класс, хранящий в себе описание, структуру и характеристики объектов на главном окне
+    QTimer timer; // Класс, реализующий работу таймера
+    uint8_t cur_hod; // Переменная, хранящая в себе текущий номер хода
+    QImage img[4];  // Контейнер, хранящий в себе загруженные изображения значков для шахматной доски в виде класса - контейнера QImage
 };
 
 #endif // DESKGUI_H

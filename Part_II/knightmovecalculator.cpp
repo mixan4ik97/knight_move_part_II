@@ -7,6 +7,7 @@ KnightMoveCalculator::KnightMoveCalculator()
 
 KnightMoveCalculator::~KnightMoveCalculator()
 {
+    emit stopAll();
 }
 
 void KnightMoveCalculator::startCalcul(const uint8_t & pos1, const uint8_t & pos2){
@@ -18,7 +19,7 @@ void KnightMoveCalculator::startCalcul(const uint8_t & pos1, const uint8_t & pos
 }
 
 void KnightMoveCalculator::stopCalcul(){
-
+    emit stopAll();
 }
 
 
@@ -33,7 +34,7 @@ QByteArray KnightMoveCalculator::getQVectorFromFlags(const uint64_t &flags,const
       if ( size >= count)
           return QByteArray();
       QByteArray ret_t;
-      uint8_t n_flags;
+      uint16_t n_flags;
       getCorrectMove(pos1, n_flags);
       if ( !(flags_this & (_BV(GET_H0(pos1)))) && ((flags & (_BV( GET_H0(pos1))))) && n_flags & (_BV(0)) ){
           ret_t = getQVectorFromFlags(flags, count, ret, GET_H0(pos1),pos2,flags_this );
@@ -45,12 +46,12 @@ QByteArray KnightMoveCalculator::getQVectorFromFlags(const uint64_t &flags,const
           if (ret_t.size() == count){ return ret_t;}
       }
 
-      qDebug()<<pos1<<"   "<<GET_H3(pos1)<<(flags & (_BV(GET_H3(pos1))) ? "tr" : "fl" ) ;
       if ( !(flags_this & (_BV(GET_H2(pos1)))) && ((flags & (_BV(GET_H2(pos1))))) && n_flags & (_BV(2)) ){
           ret_t = getQVectorFromFlags(flags, count, ret, GET_H2(pos1),pos2,flags_this );
           if (ret_t.size() == count){ return ret_t;}
       }
-         if ( !(flags_this & (_BV(GET_H3(pos1)))) && ((flags & (_BV(GET_H3(pos1))))) && n_flags & (_BV(3)) ){
+
+      if ( !(flags_this & (_BV(GET_H3(pos1)))) && ((flags & (_BV(GET_H3(pos1))))) && n_flags & (_BV(3)) ){
           ret_t = getQVectorFromFlags(flags, count, ret, GET_H3(pos1),pos2,flags_this );
           if (ret_t.size() == count){ return ret_t;}
       }
@@ -99,21 +100,7 @@ void KnightMoveCalculator::finishCalcul(uint64_t flags, unsigned char count){
         uint8_t count_min = CalculeState::inst().getCountMin()+1;
         uint8_t p1 = CalculeState::inst().getCurPos1();
         uint8_t p2 = CalculeState::inst().getCurPos2();
-        for(uint8_t i =0;i<8;i++){
-            QString temp;
-            for(uint8_t j =0;j<8;j++){
-                if(i*8+j == p1 && (flags_min & (_BV(i*8+j))) )
-                    temp+="* ";
-                else
-                    if(i*8+j == p2 && (flags_min & (_BV(i*8+j))))
-                        temp+="# ";
-                    else
-                        temp+=(flags_min & (_BV(i*8+j)) ? "1 " : "0 ");
-            }
-                qDebug()<<temp;
-        }
-        qDebug()<<"count_min = "<<count_min;
         CalculeState::inst().resetState();
-        emit calculOut(getQVectorFromFlags(flags_min, count_min,t,p1,p2,_BV(p1)));
+        emit calculOut(getQVectorFromFlags(flags_min, count_min,t,p1,p2,0));
     }
 }

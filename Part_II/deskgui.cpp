@@ -80,7 +80,6 @@ void DeskGUI::addHodForTimeout(){
         }
         w = GET_WIDTH(out);
         h  = (char) GET_HEIGHT(out);
-        qDebug()<< out<<" "<<w<<" "<<(int)h;
         if((w+h )%2 == 0 )
             ui->desk->item(7-h,w)->setBackground( ic[1]);
         else
@@ -91,6 +90,7 @@ void DeskGUI::addHodForTimeout(){
 
 DeskGUI::~DeskGUI()
 {
+    emit stopCalcul();
     timer.stop();
     emit exit();
     delete ui;
@@ -98,7 +98,8 @@ DeskGUI::~DeskGUI()
 
 
 void DeskGUI::closeEvent(QCloseEvent *event) {
-    setState(0);
+    emit stopCalcul();
+     setState(0);
      timer.stop();
      emit exit();
 }
@@ -106,7 +107,7 @@ void DeskGUI::closeEvent(QCloseEvent *event) {
 bool DeskGUI::isCorrectCoordinate(QString pos) {
     if (pos.size() != 2)
         return false;
-    if (pos.toStdString()[0] - 48 < 1 || pos.toStdString()[1] - 48 > 8)
+    if (pos.toStdString()[1] - 48 < 1 || pos.toStdString()[1] - 48 > 8)
         return false;
     for (uint8_t i = 0; i<8; i++)
         if (pos[0] == notate[i])
@@ -150,27 +151,8 @@ void DeskGUI::on_pushButton_start_clicked()
     }
 }
 
-QString getStringFromNum(uint8_t num){
-    uint8_t w = GET_WIDTH(num);
-    char h  = (char) GET_WIDTH(num);
-    return QString(QChar(notate[0] + w)) + QString(QChar(h + 48));
-}
 
 void DeskGUI::calculOut(QByteArray out){
-    qDebug()<<"Finish!";
-    for(uint8_t i =0;i<8;i++){
-        QString temp;
-        for(uint8_t j =0;j<8;j++){
-            uint8_t u=0;
-            for(uint8_t t=0;t<8;t++){if(out[t] == i*8+j) u=t+1;}
-            if(u)
-                temp+=QString::number(u) + " ";
-            else
-               temp+="0 ";
-        }
-            qDebug()<<temp;
-    }
-
     if(out.size() <= 1){
         qmb.setText("Решение не было найдено.");
         qmb.exec();

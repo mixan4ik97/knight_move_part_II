@@ -30,7 +30,8 @@ uint8_t &n - возвращаемое значение битовых флаго
 4      7
  5    6
 */
-void Calculation::getCorrectMove(const uint8_t & k,  uint8_t &n){
+void Calculation::getCorrectMove(const uint8_t & k,  uint16_t &n){
+    n=0;
     for(uint8_t i=0;i<8;i++){
         if (getOneCorrectMove(k,i))
             n  |= 1 << i;
@@ -42,5 +43,5 @@ bool Calculation::getOneCorrectMove(const uint8_t &k,const uint8_t & i){
     int t_w=GET_WIDTH(k);
     int t_h=GET_HEIGHT(k);
     get_hod(t_w,t_h,i);
-    return (t_w >0 && t_w <8 && t_h>0 && t_h<8);
+    return (t_w >=0 && t_w <8 && t_h>=0 && t_h<8);
 }

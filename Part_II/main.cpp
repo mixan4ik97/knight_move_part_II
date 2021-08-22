@@ -30,9 +30,8 @@ int main(int argc, char *argv[])
         mc[i]->moveToThread(&t_mc[i]);
     for(uint8_t i =0;i<8;i++)
         t_mc[i].start();
-    dg.show();
-
     QObject::connect(&dg,SIGNAL(exit()),&a,SLOT(quit()));
+    dg.show();
     int ret = a.exec();
 
     for(uint8_t i =0;i<8;i++){
