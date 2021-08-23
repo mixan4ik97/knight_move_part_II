@@ -9,9 +9,9 @@ DeskGUI::DeskGUI(QWidget *parent) :
     ui(new Ui::DeskGUI)
 {
     ui->setupUi(this);
-
-    ui->desk->verticalHeader()->setVisible(false);
-    ui->desk->horizontalHeader()->setVisible(false);
+    qmb.setWindowTitle("Внимание!");
+    ui->desk->setHorizontalHeaderLabels({"a","b","c","d","e","f","g","h"});
+    ui->desk->setVerticalHeaderLabels({"8","7","6","5","4","3","2","1"});
     QTableWidgetItem *it;
     ui->desk->setSelectionMode(QAbstractItemView::NoSelection);
     for(int i =0; i< 8;i++)

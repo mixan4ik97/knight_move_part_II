@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>290</width>
-    <height>490</height>
+    <width>350</width>
+    <height>550</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>290</width>
-    <height>490</height>
+    <width>350</width>
+    <height>550</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>290</width>
-    <height>490</height>
+    <width>350</width>
+    <height>550</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -227,7 +227,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>290</width>
+     <width>350</width>
      <height>21</height>
     </rect>
    </property>
