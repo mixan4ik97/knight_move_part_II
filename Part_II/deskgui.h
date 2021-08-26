@@ -5,6 +5,8 @@
 #include <QMessageBox>
 #include <QTimer>
 #include "knightmovecalculator.h"
+#define table_rang 10
+
 namespace Ui {
 class DeskGUI;
 }
@@ -21,13 +23,13 @@ public slots:
     void calculOut(QByteArray out); // Слот, принимающий сигнал с конечным значением пути
 protected:
     void closeEvent(QCloseEvent *event); // Функция, обрабатывающая закрытия окна
+    void resizeEvent(QResizeEvent *event);
 private slots:
     void on_pushButton_start_clicked(); //Слот, обрабатывающий сигнал нажатия на кнопку "Старт"
 
     void on_pushButton_stop_clicked(); //Слот, обрабатывающий сигнал по нажатию на кнопку "Стоп"
 
     void addHodForTimeout(); // Слот, реализующий ход конём
-
 
 signals:
     void startCalcul(uint8_t pos1, uint8_t pos2); //  Сигнал начала вычисления

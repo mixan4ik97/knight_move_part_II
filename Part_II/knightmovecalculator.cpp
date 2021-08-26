@@ -15,11 +15,10 @@ KnightMoveCalculator::~KnightMoveCalculator()
 // Функция, завучкающая процесс вычисления
 //const uint8_t & pos1 - номер позиции коня
 //const uint8_t & pos2 - конечное положение коня
-void KnightMoveCalculator::startCalcul(const uint8_t & pos1, const uint8_t & pos2){
+void KnightMoveCalculator::startCalcul( uint8_t  pos1,  uint8_t  pos2){
     CalculeState::inst().resetState();
     CalculeState::inst().setCurPos1( pos1);
     CalculeState::inst().setCurPos2( pos2);
-
     emit startAll(pos1,pos2);
 }
 

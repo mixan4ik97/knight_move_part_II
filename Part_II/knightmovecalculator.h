@@ -13,7 +13,7 @@ public:
     ~KnightMoveCalculator();
 public:
 public slots:
-   virtual void startCalcul(const uint8_t &pos1, const uint8_t & pos2); // Функция, завучкающая процесс вычисления
+   virtual void startCalcul( uint8_t pos1,  uint8_t  pos2); // Функция, завучкающая процесс вычисления
     virtual void stopCalcul();// Функция, принудительно завершающая процесс вычисления
    void finishCalcul(uint64_t flags, unsigned char count); // Слот, принимащий в себя результат вычисления
 signals:

@@ -11,7 +11,7 @@ const char  notate[8] = { 'a','b','c','d','e','f','g','h' };  // таблица 
 #define GET_NUMBER(pos)  ((pos[0] - notate[0])*8 + pos[1]-48)-1 // Преоводит число из символа в ASII  в целочисленное однобайтовое значение
 #define GET_WIDTH(k)  ((k) % 8) // Вычисляет из порядкового номера клетки её номер в текущей строке
 #define GET_HEIGHT(k)  ((k)/8) // Вчисляет номер строки
-#define _BV(k)( (uint64_t) 1 << (uint64_t) k) // Единая функция для определения
+#define _BV(k)( (uint64_t) 1 << (uint64_t) k) // Единая функция для возведения двойки в k-ю степень
 
 // Функции реализующие ходы коня с ячейки под номером K
 #define GET_H0(K) (K + 8 - 2)
@@ -29,7 +29,7 @@ const char  notate[8] = { 'a','b','c','d','e','f','g','h' };  // таблица 
 class Calculation : public QObject
 {
 protected slots:
-    virtual void startCalcul(const uint8_t &pos1, const uint8_t &pos2) =0; // Функция, завучкающая процесс вычисления
+    virtual void startCalcul( uint8_t pos1,  uint8_t pos2) =0; // Функция, завучкающая процесс вычисления
     virtual void stopCalcul() = 0;// Функция, принудительно завершающая процесс вычисления
     Calculation();
 protected:

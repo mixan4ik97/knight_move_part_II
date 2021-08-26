@@ -1,7 +1,7 @@
 #include "deskgui.h"
 #include "ui_deskgui.h"
 #include <QDir>
-
+#include <QResizeEvent>
 
 //Главный конструктор
 DeskGUI::DeskGUI(QWidget *parent) :
@@ -10,16 +10,33 @@ DeskGUI::DeskGUI(QWidget *parent) :
 {
     ui->setupUi(this);
     qmb.setWindowTitle("Внимание!");
-    ui->desk->setHorizontalHeaderLabels({"a","b","c","d","e","f","g","h"});
-    ui->desk->setVerticalHeaderLabels({"8","7","6","5","4","3","2","1"});
+    connect(this, SIGNAL(resized(int)), this, SLOT(resizeWindow()));
+     ui->desk->horizontalHeader()->hide();
+     ui->desk->verticalHeader()->hide();
     QTableWidgetItem *it;
     ui->desk->setSelectionMode(QAbstractItemView::NoSelection);
-    for(int i =0; i< 8;i++)
-         for(int j =0; j< 8;j++){
+    for(uint8_t i =0; i< table_rang;i++)
+         for(uint8_t j =0; j< table_rang;j++){
              it = new QTableWidgetItem();
              it->setFlags( it->flags() ^ Qt::ItemIsEditable );
              ui->desk->setItem(i, j, it);
          }
+
+
+        ui->desk->setRowHeight(0,16);
+        ui->desk->setRowHeight(table_rang-1,16);
+        ui->desk->setColumnWidth(0,16);
+        ui->desk->setColumnWidth(table_rang-1,16);
+
+
+
+    for(uint8_t i =1; i< table_rang-1;i++){
+        ui->desk->item(i,0)->setText(QString::number(table_rang-i-1));
+        ui->desk->item(i,table_rang-1)->setText(QString::number(table_rang-i-1));
+        ui->desk->item(0,i)->setText(QString(notate[i-1]));
+        ui->desk->item(table_rang-1,i)->setText(QString(notate[i-1]));
+    }
+
     QString patch = QDir::currentPath() + "/img/";
     QString name;
     QImage img;
@@ -30,8 +47,8 @@ DeskGUI::DeskGUI(QWidget *parent) :
         ic[i-1].setTextureImage(img);
     }
     ui->desk->setSelectionMode(QAbstractItemView::NoSelection);
-    for(uint8_t i =0; i< 8;i++)
-         for(uint8_t j =0; j< 8;j++){
+    for(uint8_t i =1; i< table_rang-1;i++)
+         for(uint8_t j =1; j< table_rang-1;j++){
              it = new QTableWidgetItem();
              it->setFlags( it->flags() ^ Qt::ItemIsEditable );
              if((i+j )%2 == 0 )
@@ -41,10 +58,6 @@ DeskGUI::DeskGUI(QWidget *parent) :
              ui->desk->setItem(i, j, it);
 
          }
-    for(int i =0; i< 8;i++){
-        ui->desk->setRowHeight(i,32);
-        ui->desk->setColumnWidth(i,32);
-    }
 
      connect(&timer, SIGNAL(timeout()), this, SLOT(addHodForTimeout()));
      setState(0);
@@ -52,8 +65,8 @@ DeskGUI::DeskGUI(QWidget *parent) :
 
 //Функция очищающая доску
 void DeskGUI::cleanDesk(){
-    for(uint8_t i =0; i< 8;i++)
-         for(uint8_t j =0; j< 8;j++){
+    for(uint8_t i =1; i< table_rang-1;i++)
+         for(uint8_t j =1; j< table_rang-1;j++){
              if((i+j )%2 == 0 )
                  ui->desk->item(i,j)->setBackground( ic[2]);
              else
@@ -63,6 +76,7 @@ void DeskGUI::cleanDesk(){
 
 // Слот, реализующий ход конём
 void DeskGUI::addHodForTimeout(){
+    timer.setInterval(500);
     int out = CalculeState::inst().getCurHod(cur_hod);
     if(out < 0){
        cur_hod=0;
@@ -77,16 +91,16 @@ void DeskGUI::addHodForTimeout(){
             w = GET_WIDTH(temp);
             h  = (char) GET_HEIGHT(temp);
             if((w+h )%2 == 0 )
-                ui->desk->item(7-h,w)->setBackground( ic[3]);
+                ui->desk->item(8-w,h+1)->setBackground( ic[3]);
             else
-                ui->desk->item(7-h,w)->setBackground( ic[2]);
+                ui->desk->item(8-w,h+1)->setBackground( ic[2]);
         }
         w = GET_WIDTH(out);
         h  = (char) GET_HEIGHT(out);
         if((w+h )%2 == 0 )
-            ui->desk->item(7-h,w)->setBackground( ic[1]);
+            ui->desk->item(8-w,h+1)->setBackground( ic[1]);
         else
-            ui->desk->item(7-h,w)->setBackground( ic[0]);
+            ui->desk->item(8-w,h+1)->setBackground( ic[0]);
         cur_hod++;
     }
 }
@@ -107,6 +121,25 @@ void DeskGUI::closeEvent(QCloseEvent *event) {
      setState(0);
      timer.stop();
      emit exit();
+}
+
+void DeskGUI::resizeEvent(QResizeEvent *event){
+
+    uint16_t r_kl=0;
+    double koef_kletk  = 0;
+    if(event->size().width() < event->size().height())
+       koef_kletk = (double)event->size().width()/abs(event->oldSize().width());
+    else
+        koef_kletk = (double)event->size().height()/abs(event->oldSize().height());
+
+    r_kl = ui->desk->columnWidth(1)/koef_kletk;
+    if(r_kl < 16)
+        r_kl = 16;
+    for(uint8_t i =1; i< table_rang-1;i++){
+        ui->desk->setRowHeight(i,r_kl);
+        ui->desk->setColumnWidth(i,r_kl);
+    }
+    QWidget::resizeEvent(event);
 }
 
 // Функция проверяющая на корректность введённой строки с координатами
@@ -144,13 +177,23 @@ void DeskGUI::on_pushButton_start_clicked()
         }
         uint8_t k1 = GET_NUMBER(pos1.toStdString());
         uint8_t k2 = GET_NUMBER(pos2.toStdString());
+
         if(k1 == k2){
             qmb.setText("Вы ввели одинаковые координаты.");
             qmb.exec();
             setState(0);
             return;
         }
-        CalculeState::inst().resetState();
+        cleanDesk();
+       CalculeState::inst().resetState();
+       uint8_t w = GET_WIDTH(k1);
+       uint8_t  h  = (char) GET_HEIGHT(k1);
+        if((w+h )%2 == 0 )
+            ui->desk->item(8-w,h+1)->setBackground( ic[1]);
+        else
+            ui->desk->item(8-w,h+1)->setBackground( ic[0]);
+        ui->desk->repaint();
+        timer.start(500);
         emit startCalcul(k1, k2);
     }
     catch (...) {
@@ -167,16 +210,15 @@ void DeskGUI::calculOut(QByteArray out){
         setState(0);
         return;
     }
-    cleanDesk();
     CalculeState::inst().setOutput(out);
-    cur_hod =0;
-    timer.start(500);
+    cur_hod =1;
 }
 
 //Слот, обрабатывающий сигнал по нажатию на кнопку "Стоп"
 void DeskGUI::on_pushButton_stop_clicked()
 {
     timer.stop();
+    cleanDesk();
     setState(0);
     emit stopCalcul();
 }
@@ -193,7 +235,5 @@ void DeskGUI::setState(const uint8_t& st){
         ui->pushButton_start->setEnabled(false);
     break;
     }
-
 }
-
 

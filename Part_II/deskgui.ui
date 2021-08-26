@@ -10,6 +10,12 @@
     <height>550</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
     <width>350</width>
@@ -18,8 +24,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>350</width>
-    <height>550</height>
+    <width>5000</width>
+    <height>5000</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -52,25 +58,20 @@
      <widget class="QTableWidget" name="desk">
       <property name="minimumSize">
        <size>
-        <width>256</width>
-        <height>256</height>
+        <width>0</width>
+        <height>0</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>300</width>
-        <height>300</height>
+        <width>5000</width>
+        <height>5000</height>
        </size>
       </property>
       <row>
        <property name="text">
         <string/>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>16</pointsize>
-        </font>
-       </property>
       </row>
       <row>
        <property name="text">
@@ -142,6 +143,26 @@
         </font>
        </property>
       </row>
+      <row>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string/>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string/>
+       </property>
+      </column>
       <column>
        <property name="text">
         <string/>
@@ -176,20 +197,50 @@
        <property name="text">
         <string/>
        </property>
-      </column>
-      <column>
-       <property name="text">
-        <string/>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
        </property>
       </column>
       <column>
        <property name="text">
         <string/>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
       </column>
       <column>
        <property name="text">
         <string/>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
        </property>
       </column>
       <column>
