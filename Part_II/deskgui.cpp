@@ -28,8 +28,6 @@ DeskGUI::DeskGUI(QWidget *parent) :
         ui->desk->setColumnWidth(0,16);
         ui->desk->setColumnWidth(table_rang-1,16);
 
-
-
     for(uint8_t i =1; i< table_rang-1;i++){
         ui->desk->item(i,0)->setText(QString::number(table_rang-i-1));
         ui->desk->item(i,table_rang-1)->setText(QString::number(table_rang-i-1));
@@ -39,12 +37,11 @@ DeskGUI::DeskGUI(QWidget *parent) :
 
     QString patch = QDir::currentPath() + "/img/";
     QString name;
-    QImage img;
     for(uint8_t i =1; i<= 4;i++){
         name = patch +QString::number(i) + ".png";
-        bool b = img.load(name, "PNG" );
-        img = img.scaled(32,32);
-        ic[i-1].setTextureImage(img);
+        bool b = img[i-1].load(name, "PNG" );
+        img[i-1].scaled(32,32, Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
+        ic[i-1].setTextureImage(img[i-1]);
     }
     ui->desk->setSelectionMode(QAbstractItemView::NoSelection);
     for(uint8_t i =1; i< table_rang-1;i++)
@@ -55,10 +52,11 @@ DeskGUI::DeskGUI(QWidget *parent) :
                  it->setBackground( ic[2]);
              else
                  it->setBackground( ic[3]);
+             it->setSelected(true);
              ui->desk->setItem(i, j, it);
 
          }
-
+    resizeEvent(NULL);
      connect(&timer, SIGNAL(timeout()), this, SLOT(addHodForTimeout()));
      setState(0);
 }
@@ -125,20 +123,23 @@ void DeskGUI::closeEvent(QCloseEvent *event) {
 
 void DeskGUI::resizeEvent(QResizeEvent *event){
 
-    uint16_t r_kl=0;
-    double koef_kletk  = 0;
-    if(event->size().width() < event->size().height())
-       koef_kletk = (double)event->size().width()/abs(event->oldSize().width());
+    uint16_t h = ui->desk->height()- ui->desk->rowHeight(0)*3;
+    uint16_t w = ui->desk->width()- ui->desk->columnWidth(0)*3;
+    if(h<w)
+        r_kl = h/8;
     else
-        koef_kletk = (double)event->size().height()/abs(event->oldSize().height());
-
-    r_kl = ui->desk->columnWidth(1)/koef_kletk;
-    if(r_kl < 16)
-        r_kl = 16;
+        r_kl = w/8;
     for(uint8_t i =1; i< table_rang-1;i++){
         ui->desk->setRowHeight(i,r_kl);
         ui->desk->setColumnWidth(i,r_kl);
     }
+
+    for(uint8_t i =1; i<= 4;i++){
+        img[i-1].scaled(r_kl,r_kl, Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
+        ic[i-1].setTextureImage(img[i-1]);
+    }
+
+    ui->desk->setIconSize(QSize(r_kl,r_kl));
     QWidget::resizeEvent(event);
 }
 
