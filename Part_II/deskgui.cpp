@@ -40,19 +40,22 @@ DeskGUI::DeskGUI(QWidget *parent) :
     for(uint8_t i =1; i<= 4;i++){
         name = patch +QString::number(i) + ".png";
         bool b = img[i-1].load(name, "PNG" );
-        img[i-1].scaled(32,32, Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
-        ic[i-1].setTextureImage(img[i-1]);
+        img[i-1].scaled(16,16, Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
+        ic[i-1].addPixmap(img[i-1]);
     }
     ui->desk->setSelectionMode(QAbstractItemView::NoSelection);
+
+
+     ui->desk->setStyleSheet("border: none;");
     for(uint8_t i =1; i< table_rang-1;i++)
          for(uint8_t j =1; j< table_rang-1;j++){
              it = new QTableWidgetItem();
              it->setFlags( it->flags() ^ Qt::ItemIsEditable );
              if((i+j )%2 == 0 )
-                 it->setBackground( ic[2]);
+                 it->setIcon( ic[2]);
              else
-                 it->setBackground( ic[3]);
-             it->setSelected(true);
+                 it->setIcon( ic[3]);
+
              ui->desk->setItem(i, j, it);
 
          }
@@ -66,13 +69,13 @@ void DeskGUI::cleanDesk(){
     for(uint8_t i =1; i< table_rang-1;i++)
          for(uint8_t j =1; j< table_rang-1;j++){
              if((i+j )%2 == 0 )
-                 ui->desk->item(i,j)->setBackground( ic[2]);
+                 ui->desk->item(i,j)->setIcon( ic[2]);
              else
-                 ui->desk->item(i,j)->setBackground( ic[3]);
+                 ui->desk->item(i,j)->setIcon( ic[3]);
          }
 }
 
-// Слот, реализующий ход конём
+//Слот, реализующий ход конём
 void DeskGUI::addHodForTimeout(){
     timer.setInterval(500);
     int out = CalculeState::inst().getCurHod(cur_hod);
@@ -89,16 +92,16 @@ void DeskGUI::addHodForTimeout(){
             w = GET_WIDTH(temp);
             h  = (char) GET_HEIGHT(temp);
             if((w+h )%2 == 0 )
-                ui->desk->item(8-w,h+1)->setBackground( ic[3]);
+                ui->desk->item(8-w,h+1)->setIcon( ic[3]);
             else
-                ui->desk->item(8-w,h+1)->setBackground( ic[2]);
+                ui->desk->item(8-w,h+1)->setIcon( ic[2]);
         }
         w = GET_WIDTH(out);
         h  = (char) GET_HEIGHT(out);
         if((w+h )%2 == 0 )
-            ui->desk->item(8-w,h+1)->setBackground( ic[1]);
+            ui->desk->item(8-w,h+1)->setIcon( ic[1]);
         else
-            ui->desk->item(8-w,h+1)->setBackground( ic[0]);
+            ui->desk->item(8-w,h+1)->setIcon( ic[0]);
         cur_hod++;
     }
 }
@@ -122,7 +125,6 @@ void DeskGUI::closeEvent(QCloseEvent *event) {
 }
 
 void DeskGUI::resizeEvent(QResizeEvent *event){
-
     uint16_t h = ui->desk->height()- ui->desk->rowHeight(0)*3;
     uint16_t w = ui->desk->width()- ui->desk->columnWidth(0)*3;
     if(h<w)
@@ -133,13 +135,13 @@ void DeskGUI::resizeEvent(QResizeEvent *event){
         ui->desk->setRowHeight(i,r_kl);
         ui->desk->setColumnWidth(i,r_kl);
     }
-
-    for(uint8_t i =1; i<= 4;i++){
-        img[i-1].scaled(r_kl,r_kl, Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
-        ic[i-1].setTextureImage(img[i-1]);
-    }
-
     ui->desk->setIconSize(QSize(r_kl,r_kl));
+
+    for(uint8_t i=0;i<4;i++){
+        img[i].scaled(QSize(r_kl,r_kl));
+        ic[i].addPixmap(img[i]);
+    }
+    cleanDesk();
     QWidget::resizeEvent(event);
 }
 
@@ -190,9 +192,9 @@ void DeskGUI::on_pushButton_start_clicked()
        uint8_t w = GET_WIDTH(k1);
        uint8_t  h  = (char) GET_HEIGHT(k1);
         if((w+h )%2 == 0 )
-            ui->desk->item(8-w,h+1)->setBackground( ic[1]);
+            ui->desk->item(8-w,h+1)->setIcon( ic[1]);
         else
-            ui->desk->item(8-w,h+1)->setBackground( ic[0]);
+            ui->desk->item(8-w,h+1)->setIcon( ic[0]);
         ui->desk->repaint();
         timer.start(500);
         emit startCalcul(k1, k2);
