@@ -107,7 +107,6 @@ void KnightMoveCalculator::finishCalcul(uint64_t flags, unsigned char count){
     if(countCalcul == 8){
         if(CalculeState::inst().getCountMin() > MAX_MOVES || CalculeState::inst().getCountMin() ==0 || CalculeState::inst().getFlagsMin() == 0){
             emit calculOut(QByteArray());
-            CalculeState::inst().resetState();
             return;
         }
          uint64_t k_flags = 0;
@@ -117,7 +116,6 @@ void KnightMoveCalculator::finishCalcul(uint64_t flags, unsigned char count){
         uint8_t count_min = CalculeState::inst().getCountMin()+1;
         uint8_t p1 = CalculeState::inst().getCurPos1();
         uint8_t p2 = CalculeState::inst().getCurPos2();
-        CalculeState::inst().resetState();
         emit calculOut(getQVectorFromFlags(flags_min, count_min,t,p1,p2,0));
     }
 }

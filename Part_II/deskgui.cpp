@@ -9,8 +9,8 @@ DeskGUI::DeskGUI(QWidget *parent) :
     ui(new Ui::DeskGUI)
 {
     ui->setupUi(this);
+    cur_hod=0;
     qmb.setWindowTitle("Внимание!");
-    connect(this, SIGNAL(resized(int)), this, SLOT(resizeWindow()));
      ui->desk->horizontalHeader()->hide();
      ui->desk->verticalHeader()->hide();
     QTableWidgetItem *it;
@@ -23,10 +23,10 @@ DeskGUI::DeskGUI(QWidget *parent) :
          }
 
 
-        ui->desk->setRowHeight(0,16);
-        ui->desk->setRowHeight(table_rang-1,16);
+        ui->desk->setRowHeight(0,32);
+        ui->desk->setRowHeight(table_rang-1,32);
         ui->desk->setColumnWidth(0,16);
-        ui->desk->setColumnWidth(table_rang-1,16);
+        ui->desk->setColumnWidth(table_rang-1,32);
 
     for(uint8_t i =1; i< table_rang-1;i++){
         ui->desk->item(i,0)->setText(QString::number(table_rang-i-1));
@@ -39,9 +39,9 @@ DeskGUI::DeskGUI(QWidget *parent) :
     QString name;
     for(uint8_t i =1; i<= 4;i++){
         name = patch +QString::number(i) + ".png";
-        bool b = img[i-1].load(name, "PNG" );
-        img[i-1].scaled(16,16, Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
-        ic[i-1].setTexture(img[i-1]);
+        img_c[i-1].load(name, "PNG" );
+        img[i-1]=img_c[i-1].scaled(32,32, Qt::KeepAspectRatioByExpanding,Qt::SmoothTransformation);
+        ic[i-1].setTexture(img_c[i-1]);
     }
     ui->desk->setSelectionMode(QAbstractItemView::NoSelection);
 
@@ -59,9 +59,12 @@ DeskGUI::DeskGUI(QWidget *parent) :
 
          }
 
-
      connect(&timer, SIGNAL(timeout()), this, SLOT(addHodForTimeout()));
      setState(0);
+}
+
+void DeskGUI::drawCellImage(uint8_t h,uint8_t w,int8_t num){
+    ui->desk->item(h,w)->setBackground(ic[num]);
 }
 
 //Функция очищающая доску
@@ -69,10 +72,19 @@ void DeskGUI::cleanDesk(){
     for(uint8_t i =1; i< table_rang-1;i++)
          for(uint8_t j =1; j< table_rang-1;j++){
              if((i+j )%2 == 0 )
-                 ui->desk->item(i,j)->setBackground( ic[2]);
+                 drawCellImage(i,j,2);
              else
-                 ui->desk->item(i,j)->setBackground( ic[3]);
+                 drawCellImage(i,j,3);
          }
+    if(cur_hod){
+            uint8_t out = CalculeState::inst().getCurPos2();
+            uint8_t w = GET_WIDTH(out);
+            uint8_t h  = GET_HEIGHT(out);
+            if((w+h )%2 == 0 )
+                drawCellImage(8-w,h+1,1);
+            else
+                drawCellImage(8-w,h+1,0);
+    }
 }
 
 //Слот, реализующий ход конём
@@ -80,7 +92,6 @@ void DeskGUI::addHodForTimeout(){
     timer.setInterval(500);
     int out = CalculeState::inst().getCurHod(cur_hod);
     if(out < 0){
-       cur_hod=0;
        timer.stop();
        setState(0);
     }
@@ -92,16 +103,16 @@ void DeskGUI::addHodForTimeout(){
             w = GET_WIDTH(temp);
             h  = (char) GET_HEIGHT(temp);
             if((w+h )%2 == 0 )
-                ui->desk->item(8-w,h+1)->setBackground( ic[3]);
+               drawCellImage(8-w,h+1,3);
             else
-                ui->desk->item(8-w,h+1)->setBackground( ic[2]);
+                drawCellImage(8-w,h+1,2);
         }
         w = GET_WIDTH(out);
         h  = (char) GET_HEIGHT(out);
         if((w+h )%2 == 0 )
-            ui->desk->item(8-w,h+1)->setBackground( ic[1]);
+            drawCellImage(8-w,h+1,1);
         else
-            ui->desk->item(8-w,h+1)->setBackground( ic[0]);
+            drawCellImage(8-w,h+1,0);
         cur_hod++;
     }
 }
@@ -122,8 +133,10 @@ void DeskGUI::closeEvent(QCloseEvent *event) {
      setState(0);
      timer.stop();
      emit exit();
+     QWidget::closeEvent(event);
 }
 
+//Функция, обрабатывающия изменение размера виджета
 void DeskGUI::resizeEvent(QResizeEvent *event){
     int h = ui->desk->height()- ui->desk->rowHeight(0)*3;
     int w = ui->desk->width()- ui->desk->columnWidth(0)*3;
@@ -140,10 +153,17 @@ void DeskGUI::resizeEvent(QResizeEvent *event){
     } 
 
     for(uint8_t i=0;i<4;i++){
-        img[i].scaled(QSize(r_kl,r_kl),Qt::KeepAspectRatio);
+        img[i] = img_c[i].scaled(QSize(r_kl.load(),r_kl.load()),Qt::KeepAspectRatio);
         ic[i].setTexture(img[i]);
     }
+
+    cleanDesk();
     QWidget::resizeEvent(event);
+}
+
+void DeskGUI::showEvent(QShowEvent *event){
+    resizeEvent(nullptr);
+    QWidget::showEvent(event);
 }
 
 // Функция проверяющая на корректность введённой строки с координатами
@@ -193,9 +213,9 @@ void DeskGUI::on_pushButton_start_clicked()
        uint8_t w = GET_WIDTH(k1);
        uint8_t  h  = (char) GET_HEIGHT(k1);
         if((w+h )%2 == 0 )
-            ui->desk->item(8-w,h+1)->setBackground( ic[1]);
+            drawCellImage(8-w,h+1,1);
         else
-            ui->desk->item(8-w,h+1)->setBackground( ic[0]);
+            drawCellImage(8-w,h+1,1);
         ui->desk->repaint();
         timer.start(500);
         emit startCalcul(k1, k2);
@@ -221,10 +241,14 @@ void DeskGUI::calculOut(QByteArray out){
 //Слот, обрабатывающий сигнал по нажатию на кнопку "Стоп"
 void DeskGUI::on_pushButton_stop_clicked()
 {
-    timer.stop();
-    cleanDesk();
-    setState(0);
-    emit stopCalcul();
+    if(state){
+        timer.stop();
+        cleanDesk();
+        cur_hod =0;
+        setState(0);
+        cleanDesk();
+        emit stopCalcul();
+    }
 }
 
 // Устанавливает текущее состояние работы окна
@@ -236,6 +260,7 @@ void DeskGUI::setState(const uint8_t& st){
          ui->pushButton_start->setEnabled(true);
     break;
     case  1 :
+        cur_hod=0;
         ui->pushButton_start->setEnabled(false);
     break;
     }
